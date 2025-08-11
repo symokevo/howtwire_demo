@@ -3,7 +3,7 @@ class NotesController < ApplicationController
 
   # GET /notes or /notes.json
   def index
-    @notes = Note.all
+    @notes = Note.all.order(created_at: :desc)
   end
 
   # GET /notes/1 or /notes/1.json
@@ -25,7 +25,8 @@ class NotesController < ApplicationController
 
     respond_to do |format|
       if @note.save
-        format.html { redirect_to @note, notice: "Note was successfully created." }
+        format.turbo_stream
+        format.html { redirect_to notes_path, notice: "Note was successfully created." }
         format.json { render :show, status: :created, location: @note }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -52,6 +53,7 @@ class NotesController < ApplicationController
     @note.destroy!
 
     respond_to do |format|
+      format.turbo_stream
       format.html { redirect_to notes_path, notice: "Note was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
     end

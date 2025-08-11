@@ -1,9 +1,11 @@
-<% content_for :title, "New note" %>
-
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New note</h1>
-
-  <%= render "form", note: @note %>
-
-  <%= link_to "Back to notes", notes_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-</div>
+<%= form_with(model: @note, data: { turbo_frame: "new_note" }) do |form| %>
+  <div class="mb-2">
+    <%= form.label :title, class: "block font-semibold" %>
+    <%= form.text_field :title, class: "border p-2 w-full" %>
+  </div>
+  <div class="mb-2">
+    <%= form.label :content, class: "block font-semibold" %>
+    <%= form.text_area :content, rows: 3, class: "border p-2 w-full" %>
+  </div>
+  <%= form.submit "save", class: "px-4 py-2 bg-green-500 text-white rounded" %>
+<% end %>
